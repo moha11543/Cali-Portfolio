@@ -1,0 +1,294 @@
+.text-center {
+    text-align: center;
+}
+
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.filter-btn {
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    color: var(--text-muted);
+    padding: 0.6rem 1.5rem;
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    transition: var(--transition);
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+    box-shadow: 0 5px 15px rgba(0, 112, 243, 0.2);
+}
+
+/* ===========================
+   Masonry Grid (Desktop)
+   =========================== */
+.masonry-grid {
+    columns: 3;
+    column-gap: 1.5rem;
+}
+
+.gallery-item {
+    position: relative;
+    margin-bottom: 1.5rem;
+    break-inside: avoid;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.gallery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: var(--transition);
+}
+
+.gallery-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: var(--transition);
+    padding: 2rem;
+    text-align: center;
+}
+
+.play-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(0, 112, 243, 0.8);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    color: #fff;
+    box-shadow: 0 0 30px rgba(0, 112, 243, 0.5);
+    transition: var(--transition);
+}
+
+.play-icon svg {
+    width: 30px;
+    height: 30px;
+    margin-left: 4px;
+}
+
+.gallery-item:hover .play-icon {
+    transform: scale(1.1);
+    background: var(--primary-color);
+}
+
+.gallery-item:hover .gallery-hover {
+    opacity: 1;
+}
+
+.gallery-item:hover .gallery-img {
+    transform: scale(1.1);
+}
+
+.project-category {
+    font-size: 0.8rem;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    letter-spacing: 2px;
+}
+
+.project-title {
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.project-branding {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-weight: 700;
+}
+
+/* ===========================
+   Lightbox
+   =========================== */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.lightbox-content {
+    position: relative;
+    max-width: 1000px;
+    width: 100%;
+}
+
+.lightbox-video {
+    width: 100%;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+    background: #000;
+}
+
+.close-btn {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2.5rem;
+    cursor: pointer;
+}
+
+/* ===========================
+   View Full Gallery Button
+   =========================== */
+.gallery-view-more {
+    display: none;
+    /* hidden on desktop */
+    justify-content: center;
+    margin-top: 2.5rem;
+}
+
+.gallery-expand-btn {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--text-main);
+    padding: 0.9rem 2.2rem;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: all 0.35s ease;
+    letter-spacing: 0.4px;
+}
+
+.gallery-expand-btn:hover {
+    background: rgba(0, 112, 243, 0.12);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 112, 243, 0.15);
+}
+
+.gallery-expand-icon {
+    font-size: 1rem;
+}
+
+/* ===========================
+   Animations
+   =========================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.6s ease forwards;
+}
+
+/* ===========================
+   Responsive Breakpoints
+   =========================== */
+@media (max-width: 992px) {
+    .masonry-grid {
+        columns: 2;
+    }
+}
+
+/* ===========================
+   Mobile (< 768px)
+   =========================== */
+@media (max-width: 768px) {
+
+    /* Switch from masonry columns to a 2-column grid
+       with consistent aspect-ratio cells */
+    .masonry-grid {
+        columns: unset;
+        column-gap: unset;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+
+    /* Fixed aspect-ratio so every cell is uniform – no stretching */
+    .gallery-item {
+        margin-bottom: 0;
+        aspect-ratio: 4 / 3;
+    }
+
+    .gallery-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Filter pills: smaller on mobile */
+    .filter-buttons {
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .filter-btn {
+        padding: 0.45rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    /* Show the View Gallery button on mobile */
+    .gallery-view-more {
+        display: flex;
+    }
+
+    /* Hover overlay is touch-unfriendly; show a subtle permanent label */
+    .gallery-hover {
+        opacity: 0;
+        /* keep hover for desktop-in-mobile-size browsers */
+    }
+}
+
+/* Extra-small (< 480px): single column for very narrow screens */
+@media (max-width: 480px) {
+    .masonry-grid {
+        grid-template-columns: 1fr 1fr;
+        /* keep 2-col but narrower gap */
+        gap: 0.5rem;
+    }
+}

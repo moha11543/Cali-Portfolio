@@ -1,0 +1,22 @@
+# ============================================================
+#  Netlify Configuration — Cali Mahdi Portfolio
+# ============================================================
+
+[build]
+  # Directory containing source files
+  publish = "dist"
+
+  # Build command — builds all components including Admin dashboard
+  command = "npm run build"
+
+# ============================================================
+#  SPA Client-Side Routing Fix
+#  Without this, Netlify returns 404 for /admin, /admin/login
+#  etc. because there are no physical files at those paths.
+#  This rule forwards ALL requests to index.html so React
+#  Router can handle routing on the client side.
+# ============================================================
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200
