@@ -3,9 +3,12 @@ import { Outlet, Navigate, Link, useNavigate, useLocation } from 'react-router-d
 import { supabase } from '../lib/supabase';
 import { LayoutDashboard, LogOut, Settings, PlaySquare, ShoppingBag } from 'lucide-react';
 
+import './AdminLayout.css';
+
 const AdminLayout = () => {
     const [session, setSession] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -33,6 +36,9 @@ const AdminLayout = () => {
         navigate('/admin/login');
     };
 
+    const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+    const closeSidebar = () => setSidebarOpen(false);
+
     if (loading) {
         return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', color: '#fff' }}>Loading Admin...</div>;
     }
@@ -52,53 +58,68 @@ const AdminLayout = () => {
         return <Outlet />;
     }
 
-
     return (
-        <div style={{ display: 'flex', minHeight: '100vh', background: '#0a0a0a', color: '#fff', fontFamily: 'Inter, sans-serif' }}>
+        <div className="admin-shell">
+            {/* Mobile Hamburger Button */}
+            <button
+                className={`admin-hamburger ${sidebarOpen ? 'is-open' : ''}`}
+                onClick={toggleSidebar}
+                aria-label="Toggle Menu"
+            >
+                <span className="hamburger-line"></span>
+                <span className="hamburger-line"></span>
+                <span className="hamburger-line"></span>
+            </button>
+
+            {/* Mobile Overlay */}
+            <div
+                className={`admin-overlay ${sidebarOpen ? 'overlay-visible' : ''}`}
+                onClick={closeSidebar}
+            ></div>
+
             {/* Sidebar */}
-            <aside style={{ width: '250px', background: '#121212', borderRight: '1px solid rgba(255,255,255,0.1)', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ padding: '2rem', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                    <h2 style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#0070f3' }}>Cali Admin</h2>
+            <aside className={`admin-sidebar ${sidebarOpen ? 'sidebar-open' : ''}`}>
+                <div className="sidebar-logo">
+                    <h2>Cali Admin</h2>
                 </div>
 
-                <nav style={{ flex: 1, padding: '2rem 1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <Link to="/admin" style={navLinkStyle(location.pathname === '/admin')}>
+                <nav className="sidebar-nav">
+                    <Link
+                        to="/admin"
+                        className={`sidebar-link ${location.pathname === '/admin' ? 'active' : ''}`}
+                        onClick={closeSidebar}
+                    >
                         <LayoutDashboard size={20} /> Dashboard
                     </Link>
-                    <Link to="/admin/presets" style={navLinkStyle(location.pathname === '/admin/presets')}>
+                    <Link
+                        to="/admin/presets"
+                        className={`sidebar-link ${location.pathname === '/admin/presets' ? 'active' : ''}`}
+                        onClick={closeSidebar}
+                    >
                         <PlaySquare size={20} /> Presets
                     </Link>
-                    <Link to="/admin/orders" style={navLinkStyle(location.pathname === '/admin/orders')}>
+                    <Link
+                        to="/admin/orders"
+                        className={`sidebar-link ${location.pathname === '/admin/orders' ? 'active' : ''}`}
+                        onClick={closeSidebar}
+                    >
                         <ShoppingBag size={20} /> Orders
                     </Link>
                 </nav>
 
-                <div style={{ padding: '2rem 1rem', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-                    <button onClick={handleLogout} style={{ ...navLinkStyle(false), width: '100%', background: 'transparent', border: 'none', cursor: 'pointer', textAlign: 'left', color: '#ff4d4d' }}>
+                <div className="sidebar-footer">
+                    <button onClick={handleLogout} className="sidebar-logout-btn">
                         <LogOut size={20} /> Logout
                     </button>
                 </div>
             </aside>
 
             {/* Main Content */}
-            <main style={{ flex: 1, padding: '3rem', overflowY: 'auto' }}>
+            <main className="admin-main">
                 <Outlet />
             </main>
         </div>
     );
 };
-
-const navLinkStyle = (isActive) => ({
-    display: 'flex',
-    alignItems: 'center',
-    gap: '12px',
-    padding: '12px 16px',
-    borderRadius: '8px',
-    color: isActive ? '#fff' : '#a0a0a0',
-    background: isActive ? 'rgba(0, 112, 243, 0.1)' : 'transparent',
-    textDecoration: 'none',
-    transition: 'all 0.2s ease',
-    fontWeight: isActive ? '600' : '400'
-});
 
 export default AdminLayout;
